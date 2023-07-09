@@ -1,34 +1,25 @@
 import subprocess
 
-def check_rhel_updates():
-    # Ejecutar el comando para verificar actualizaciones disponibles
-    result = subprocess.run(['sudo', 'dnf', 'check-update'], capture_output=True, text=True)
+def check_ubuntu_updates():
+    # Ejecutar el comando 'apt update' para actualizar los repositorios
+    subprocess.run(['sudo', 'apt', 'update'])
 
-    if result.returncode == 0:
-        updates_available = result.stdout.strip().split('\n')
-        if updates_available:
-            print("Hay actualizaciones disponibles:")
-            for update in updates_available:
-                print(update)
-            choice = input("¿Desea instalar las actualizaciones? (S/N): ")
-            if choice.lower() == 's':
-                # Ejecutar el comando para instalar las actualizaciones
-                install_updates()
-            else:
-                print("No se instalarán las actualizaciones.")
+    # Ejecutar el comando 'apt list --upgradable' para obtener las actualizaciones disponibles
+    result = subprocess.run(['apt', 'list', '--upgradable'], capture_output=True, text=True)
+    output = result.stdout.strip()
+
+    if output:
+        print("¡Existen actualizaciones disponibles!")
+        # Generar el prompt para que el usuario decida si instalar o no las actualizaciones
+        choice = input("¿Desea instalar las actualizaciones? (y/n): ")
+        if choice.lower() == 'y':
+            # Ejecutar el comando 'sudo apt upgrade' para instalar las actualizaciones
+            subprocess.run(['sudo', 'apt', 'upgrade'])
+            print("Las actualizaciones se han instalado correctamente.")
         else:
-            print("No hay actualizaciones disponibles.")
+            print("No se han instalado las actualizaciones.")
     else:
-        print("Ocurrió un error al verificar las actualizaciones.")
+        print("No hay actualizaciones disponibles.")
 
-def install_updates():
-    # Ejecutar el comando para instalar las actualizaciones
-    result = subprocess.run(['sudo', 'dnf', 'upgrade', '-y'], capture_output=True, text=True)
-
-    if result.returncode == 0:
-        print("Las actualizaciones se han instalado correctamente.")
-    else:
-        print("Ocurrió un error al instalar las actualizaciones.")
-
-# Llamar a la función para verificar las actualizaciones de RHEL
-check_rhel_updates()
+# Llamar a la función para verificar las actualizaciones en Ubuntu
+check_ubuntu_updates()
