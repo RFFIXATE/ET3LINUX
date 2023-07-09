@@ -5,10 +5,10 @@ def check_ubuntu_updates():
     subprocess.run(['sudo', 'apt', 'update'])
 
     # Ejecutar el comando 'apt list --upgradable' para obtener las actualizaciones disponibles
-    result = subprocess.run(['apt', 'list', '--upgradable'], capture_output=True, text=True)
-    output = result.stdout.strip()
+    resultado = subprocess.run(['apt', 'list', '--upgradable'], capture_output=True, text=True)
+    salida = resultado.stdout.strip()
 
-    if output:
+    if salida:
         print("¡Existen actualizaciones disponibles!")
         # Generar el prompt para que el usuario decida si instalar o no las actualizaciones
         choice = input("¿Desea instalar las actualizaciones? (y/n): ")
@@ -23,3 +23,8 @@ def check_ubuntu_updates():
 
 # Llamar a la función para verificar las actualizaciones en Ubuntu
 check_ubuntu_updates()
+
+
+#SEBASTIAN CANCINO
+#PEDRO QUINTANA
+#ET LINUX 3
